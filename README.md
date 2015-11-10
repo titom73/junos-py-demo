@@ -29,9 +29,14 @@ pip install junos-eznc
 pip install argparse
 ```
 
-2.  optparse Module
+3.  optparse Module
 ```shell
 pip install optparse
+```
+
+4.  YAML Module
+```shell
+pip install yaml
 ```
 
 ### Check your environment
@@ -49,7 +54,25 @@ python check_env.py
   * egg is MISSING (use pip install egg)
 ```
 
-## Running Scripts
+### Create LAB description
+
+All scripts will use the same dictionnary file to list devices involved in this LAB / POC. This file is located under script directory and named lab-poc.yml. Below is an example of the content and should be changed according your setup:
+
+```
+--- 
+### List all IPs involved in the POC / Demo
+   - 172.30.108.228
+   - 172.30.108.229
+   - 172.30.108.230
+   - 172.30.108.232
+   - 172.30.108.233
+   - 172.30.108.234
+   - 172.30.108.236
+```
+
+All scripts are using an option to let you change this name (check option -l for each script)
+
+## Execute Scripts
 ### Audit phase
 #### Check UPLINK and DOWNLINK status
 This script connects to each device (it has the list of devices from a yaml file) and prints some details about the UPLINKS and DOWNLINKS accross the whole fabric.
@@ -77,3 +100,31 @@ python l1-check-uplink-status.py -u root -p ****
     - Network Interface xe-2/0/0(DOWNLINK to spine01) is UP
     - Network Interface xe-2/0/1(DOWNLINK to spine02) is UP
 ```
+
+#### Check UPLINK and DOWNLINK status with flapping information
+
+
+1. USAGE:
+```python
+python l1-check-flap-interfaces.py -u root -p **** 
+```
+
+2. Output sample:
+```
+* Start checking router 172.30.108.228
+* Start checking router 172.30.108.229
+* Start checking router 172.30.108.230
+* Start checking router 172.30.108.232
+  - xe-0/0/0:0 (UPLINK - S1 to F1 - 192.168.0.12/31) current status is UP  (last flap: 2015-11-06 12:17:51 UTC (4d 06:00 ago))
+  - xe-0/0/2:0 (UPLINK - S1 to F2 - 192.168.0.16/31) current status is UP  (last flap: 2015-11-06 12:17:51 UTC (4d 06:00 ago))
+* Start checking router 172.30.108.233
+  - xe-0/0/0:0 (UPLINK - S2 to F1 - 192.168.0.14/31) current status is UP  (last flap: 2015-11-06 12:02:18 UTC (4d 06:16 ago))
+  - xe-0/0/2:0 (UPLINK - S2 to F2 - 192.168.0.18/31) current status is UP  (last flap: 2015-11-06 11:38:07 UTC (4d 06:40 ago))
+* Start checking router 172.30.108.234
+  - xe-2/0/0 (DOWNLINK to spine01) current status is UP  (last flap: 2015-11-06 12:17:44 UTC (4d 06:00 ago))
+  - xe-2/0/1 (DOWNLINK to spine02) current status is UP  (last flap: 2015-11-06 12:02:08 UTC (4d 06:16 ago))
+* Start checking router 172.30.108.236
+  - xe-2/0/0 (DOWNLINK to spine01) current status is UP  (last flap: 2015-11-06 12:17:41 UTC (4d 06:00 ago))
+  - xe-2/0/1 (DOWNLINK to spine02) current status is UP  (last flap: 2015-11-06 11:37:53 UTC (4d 06:40 ago))
+```
+

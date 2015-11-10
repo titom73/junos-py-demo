@@ -1,62 +1,29 @@
 #---------------------------------------------------------------------------------------------------------------
 # DESCRIPTION:
-# This script connects to each device (it has the list of devices from a yaml file) and prints some details about the UPLINKS and DOWNLINKS accross the whole fabric.
-# it also write the same ouput on a file (junos-python-l1.log)
+# 
 #
 # AUTHOR:   Khelil SATOR (ksator@juniper.net) / Thomas Grimonet (tgrimonet@juniper.net)
-# FILE:     l1-check-uplink-status.py
-# CREATED:  2015-11-10
+# FILE:     
+# CREATED:  
 # VERSION: 	1.1
 #
 # USAGE:
-# python l1-check-uplink-status.py -u root -p **** 
+# 
 #
 # --------------------------------------------------------------------
 #
 # HELP: 
-# usage: l1-check-uplink-status.py [-h] [-u USERNAME] [-p PASSWORD] [-l LAB]
 #
-# Python & Junos demo -- version 1.1
-#
-# optional arguments:
-#   -h, --help            show this help message and exit
-#   -u USERNAME, --username USERNAME
-#                         Username required to connect to devices
-#   -p PASSWORD, --password PASSWORD
-#                         User password to connect to devices
-#   -l LAB, --lab LAB     Files containing device IP address
 #
 # --------------------------------------------------------------------
 #
 # Output sample:
-#   * Start checking router 172.30.108.228
-#	  * Start checking router 172.30.108.229
-#	  * Start checking router 172.30.108.230
-#	  * Start checking router 172.30.108.232
-#	    - Network Interface xe-0/0/0:0(UPLINK - S1 to F1 - 192.168.0.12/31) is UP
-#	    - Network Interface xe-0/0/2:0(UPLINK - S1 to F2 - 192.168.0.16/31) is UP
-#	  * Start checking router 172.30.108.233
-#	    - Network Interface xe-0/0/0:0(UPLINK - S2 to F1 - 192.168.0.14/31) is UP
-#	    - Network Interface xe-0/0/2:0(UPLINK - S2 to F2 - 192.168.0.18/31) is UP
-#	  * Start checking router 172.30.108.234
-#	    - Network Interface xe-2/0/0(DOWNLINK to spine01) is UP
-#	    - Network Interface xe-2/0/1(DOWNLINK to spine02) is UP
-#	  * Start checking router 172.30.108.236
-#	    - Network Interface xe-2/0/0(DOWNLINK to spine01) is UP
-#	    - Network Interface xe-2/0/1(DOWNLINK to spine02) is UP
+#
 #
 # --------------------------------------------------------------------
 # 
 # Input Sample (pay attention to the YAML syntax)
-# --- 
-# ### List all IPs involved in the POC / Demo
-#    - 172.30.108.228
-#    - 172.30.108.229
-#    - 172.30.108.230
-#    - 172.30.108.232
-#    - 172.30.108.233
-#    - 172.30.108.234
-#    - 172.30.108.236
+#
 # ---------------------------------------------------------------------------------------------------------------
 
 import yaml
@@ -69,12 +36,6 @@ import argparse
 from optparse import OptionParser
 from logging.handlers import RotatingFileHandler
 
-### Function to connect to device and then collect data from PhyPort Table
-def get_data(router, options ):
-	jdev = Device(host=router, user=options.username, password=options.password)
-	jdev.open()
-	ports = PhyPortTable(jdev).get()
-	return ports
 
 def main(options):
 
@@ -85,18 +46,7 @@ def main(options):
 	for router in my_list_of_routers:
 		print "  * Start checking router "+ router
 		logger.info("Analyzing router %s",router)
-		ports = get_data(router,options)
-		for item in ports:
-			if item.description:
-				if "LINK" in item.description:
-					if item.oper == "down":
-						logMessage = "    - Network Interface " + item.key + "(" + item.description + ") is DOWN"	
-						print (logMessage)
-						logger.info(logMessage)
-					if item.oper == "up":
-						logMessage = "    - Network Interface " + item.key + "(" + item.description + ") is UP"	
-						print (logMessage)
-						logger.info(logMessage)
+		
 		logger.info("End of analyzing router %s",router)
 
 # ----------------------------------------------------------------- #

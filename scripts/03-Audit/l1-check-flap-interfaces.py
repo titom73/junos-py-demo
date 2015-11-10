@@ -1,20 +1,21 @@
 #---------------------------------------------------------------------------------------------------------------
 # DESCRIPTION:
-# This script connects to each device (it has the list of devices from a yaml file) and prints some details about the UPLINKS and DOWNLINKS accross the whole fabric.
-# it also write the same ouput on a file (junos-python-l1.log)
+# This script connects to each device (it has the list of devices from a yaml file) 
+# and get the some details about uplinks/downlinks and print some details regarding this.
+# it also write the same ouput on a file
 #
 # AUTHOR:   Khelil SATOR (ksator@juniper.net) / Thomas Grimonet (tgrimonet@juniper.net)
-# FILE:     l1-check-uplink-status.py
+# FILE:     
 # CREATED:  2015-11-10
 # VERSION: 	1.1
 #
 # USAGE:
-# python l1-check-uplink-status.py -u root -p **** 
+# python l1-check-flap-interfaces.py -u root -p ****
 #
 # --------------------------------------------------------------------
 #
 # HELP: 
-# usage: l1-check-uplink-status.py [-h] [-u USERNAME] [-p PASSWORD] [-l LAB]
+# usage: l1-check-flap-interfaces.py [-h] [-u USERNAME] [-p PASSWORD] [-l LAB]
 #
 # Python & Junos demo -- version 1.1
 #
@@ -29,21 +30,22 @@
 # --------------------------------------------------------------------
 #
 # Output sample:
-#   * Start checking router 172.30.108.228
-#	  * Start checking router 172.30.108.229
-#	  * Start checking router 172.30.108.230
-#	  * Start checking router 172.30.108.232
-#	    - Network Interface xe-0/0/0:0(UPLINK - S1 to F1 - 192.168.0.12/31) is UP
-#	    - Network Interface xe-0/0/2:0(UPLINK - S1 to F2 - 192.168.0.16/31) is UP
-#	  * Start checking router 172.30.108.233
-#	    - Network Interface xe-0/0/0:0(UPLINK - S2 to F1 - 192.168.0.14/31) is UP
-#	    - Network Interface xe-0/0/2:0(UPLINK - S2 to F2 - 192.168.0.18/31) is UP
-#	  * Start checking router 172.30.108.234
-#	    - Network Interface xe-2/0/0(DOWNLINK to spine01) is UP
-#	    - Network Interface xe-2/0/1(DOWNLINK to spine02) is UP
-#	  * Start checking router 172.30.108.236
-#	    - Network Interface xe-2/0/0(DOWNLINK to spine01) is UP
-#	    - Network Interface xe-2/0/1(DOWNLINK to spine02) is UP
+# python l1-check-flap-interfaces.py -u root -p Juniper123
+# * Start checking router 172.30.108.228
+# * Start checking router 172.30.108.229
+# * Start checking router 172.30.108.230
+# * Start checking router 172.30.108.232
+#   - xe-0/0/0:0 (UPLINK - S1 to F1 - 192.168.0.12/31) current status is UP  (last flap: 2015-11-06 12:17:51 UTC (4d 06:00 ago))
+#   - xe-0/0/2:0 (UPLINK - S1 to F2 - 192.168.0.16/31) current status is UP  (last flap: 2015-11-06 12:17:51 UTC (4d 06:00 ago))
+# * Start checking router 172.30.108.233
+#   - xe-0/0/0:0 (UPLINK - S2 to F1 - 192.168.0.14/31) current status is UP  (last flap: 2015-11-06 12:02:18 UTC (4d 06:16 ago))
+#   - xe-0/0/2:0 (UPLINK - S2 to F2 - 192.168.0.18/31) current status is UP  (last flap: 2015-11-06 11:38:07 UTC (4d 06:40 ago))
+# * Start checking router 172.30.108.234
+#   - xe-2/0/0 (DOWNLINK to spine01) current status is UP  (last flap: 2015-11-06 12:17:44 UTC (4d 06:00 ago))
+#   - xe-2/0/1 (DOWNLINK to spine02) current status is UP  (last flap: 2015-11-06 12:02:08 UTC (4d 06:16 ago))
+# * Start checking router 172.30.108.236
+#   - xe-2/0/0 (DOWNLINK to spine01) current status is UP  (last flap: 2015-11-06 12:17:41 UTC (4d 06:00 ago))
+#   - xe-2/0/1 (DOWNLINK to spine02) current status is UP  (last flap: 2015-11-06 11:37:53 UTC (4d 06:40 ago))
 #
 # --------------------------------------------------------------------
 # 
@@ -69,6 +71,7 @@ import argparse
 from optparse import OptionParser
 from logging.handlers import RotatingFileHandler
 
+
 ### Function to connect to device and then collect data from PhyPort Table
 def get_data(router, options ):
 	jdev = Device(host=router, user=options.username, password=options.password)
@@ -89,14 +92,10 @@ def main(options):
 		for item in ports:
 			if item.description:
 				if "LINK" in item.description:
-					if item.oper == "down":
-						logMessage = "    - Network Interface " + item.key + "(" + item.description + ") is DOWN"	
-						print (logMessage)
-						logger.info(logMessage)
-					if item.oper == "up":
-						logMessage = "    - Network Interface " + item.key + "(" + item.description + ") is UP"	
-						print (logMessage)
-						logger.info(logMessage)
+					#print (item.key + " (" + item.description + ")" + " current status is " + item.oper + "\n" + "last flap: " + item.flapped +"\n") 
+					logMessage = "    - "+item.key + " (" + item.description + ")" + " current status is " + item.oper.upper() + "  (last flap: " + item.flapped +")"	
+					print (logMessage)
+					logger.info(logMessage)
 		logger.info("End of analyzing router %s",router)
 
 # ----------------------------------------------------------------- #
@@ -128,7 +127,7 @@ if __name__ == "__main__":
 	steam_handler.setFormatter(formatter)
 	logger.addHandler(steam_handler)
 	### Write log with DEBUG level and higher
-	file_handler = logging.FileHandler("junos-python-l1.log")
+	file_handler = logging.FileHandler("junos-python-l1-if-flap.log")
 	file_handler.setLevel(logging.DEBUG)
 	file_handler.setFormatter(formatter)
 	### Add handler to logger

@@ -1,6 +1,7 @@
 # junos-py-demo
-Demo Script to demonstrate ability to automate Junos with Python
+Demo Scripts to demonstrate ability to automate Junos with Python
 
+## About
 This repository provides some scripts to demonstrate how to automate Junos with Python, So There is 3 different sections:
 - Build
 - Run
@@ -35,7 +36,7 @@ pip install optparse
 
 ### Check your environment
 
-Before running any script, we have to check our system is ready with all dependencies installed:
+Before running any script, we have to check if our system is ready to execute scripts with all dependencies installed:
 ```shell
 python check_env.py
   * jnpr is installed
@@ -48,4 +49,31 @@ python check_env.py
   * egg is MISSING (use pip install egg)
 ```
 
-Run Scripts
+## Running Scripts
+### Audit phase
+#### Check UPLINK and DOWNLINK status
+This script connects to each device (it has the list of devices from a yaml file) and prints some details about the UPLINKS and DOWNLINKS accross the whole fabric.
+
+USAGE:
+```python
+python l1-check-uplink-status.py -u root -p **** 
+```
+
+Output sample:
+```
+  * Start checking router 172.30.108.228
+  * Start checking router 172.30.108.229
+  * Start checking router 172.30.108.230
+  * Start checking router 172.30.108.232
+    - Network Interface xe-0/0/0:0(UPLINK - S1 to F1 - 192.168.0.12/31) is UP
+    - Network Interface xe-0/0/2:0(UPLINK - S1 to F2 - 192.168.0.16/31) is UP
+  * Start checking router 172.30.108.233
+    - Network Interface xe-0/0/0:0(UPLINK - S2 to F1 - 192.168.0.14/31) is UP
+    - Network Interface xe-0/0/2:0(UPLINK - S2 to F2 - 192.168.0.18/31) is UP
+  * Start checking router 172.30.108.234
+    - Network Interface xe-2/0/0(DOWNLINK to spine01) is UP
+    - Network Interface xe-2/0/1(DOWNLINK to spine02) is UP
+  * Start checking router 172.30.108.236
+    - Network Interface xe-2/0/0(DOWNLINK to spine01) is UP
+    - Network Interface xe-2/0/1(DOWNLINK to spine02) is UP
+```

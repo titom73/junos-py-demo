@@ -77,12 +77,12 @@ All scripts are using an option to let you change this name (check option -l for
 #### Check UPLINK and DOWNLINK status
 This script connects to each device (it has the list of devices from a yaml file) and prints some details about the UPLINKS and DOWNLINKS accross the whole fabric.
 
-1. USAGE:
+* USAGE:
 ```python
 python l1-check-uplink-status.py -u root -p **** 
 ```
 
-2. Output sample:
+* Output sample:
 ```
   * Start checking router 172.30.108.228
   * Start checking router 172.30.108.229
@@ -104,12 +104,12 @@ python l1-check-uplink-status.py -u root -p ****
 #### Check UPLINK and DOWNLINK status with flapping information
 
 
-1. USAGE:
+* USAGE:
 ```python
 python l1-check-flap-interfaces.py -u root -p **** 
 ```
 
-2. Output sample:
+* Output sample:
 ```
 * Start checking router 172.30.108.228
 * Start checking router 172.30.108.229

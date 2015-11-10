@@ -54,12 +54,12 @@ python check_env.py
 #### Check UPLINK and DOWNLINK status
 This script connects to each device (it has the list of devices from a yaml file) and prints some details about the UPLINKS and DOWNLINKS accross the whole fabric.
 
-USAGE:
+1. USAGE:
 ```python
 python l1-check-uplink-status.py -u root -p **** 
 ```
 
-Output sample:
+2. Output sample:
 ```
   * Start checking router 172.30.108.228
   * Start checking router 172.30.108.229

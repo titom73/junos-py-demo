@@ -1,6 +1,6 @@
 #---------------------------------------------------------------------------------------------------------------
 # DESCRIPTION:
-# This script connects to each device (it has the list of devices from a yaml file) and prints some details about the uplinks and downlinks accross the whole fabric.
+# This script connects to each device (it has the list of devices from a yaml file) and prints some details about the UPLINKS and DOWNLINKS accross the whole fabric.
 # it also write the same ouput on a file (junos-python-l1.log)
 #
 # AUTHOR:   Khelil SATOR (ksator@juniper.net) / Thomas Grimonet (tgrimonet@juniper.net)
@@ -109,7 +109,7 @@ if __name__ == "__main__":
 	version = "1.1"
 	gUser='root'
 	gPass='****'
-	gFile='./lab-poc.yml'
+	gFile='../lab-poc.yml'
 
 	### CLI Option parser:
 	parser = argparse.ArgumentParser(description="Python & Junos demo -- version "+version)

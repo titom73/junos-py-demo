@@ -1,0 +1,99 @@
+---
+- host_name: leaf1
+  management_ip: 172.30.108.139
+  # loopback and router_id and ibgp (overlay/evpn) local_address are the same
+  loopback: 10.20.1.1
+  router_id: 10.20.1.1
+  switch_options_route_distinguisher: 10.20.1.1:1
+  snmp_location: "DC1 room1 raw1 rack01"
+  uplinks: 
+   to_spine01: 
+    interface: et-0/0/22
+    description: "UPLINK - L1 to S1 - 192.168.0.0/31"
+    address: 192.168.0.0
+   to_spine02: 
+    interface: et-0/0/23
+    description: "UPLINK - L1 to S2 - 192.168.0.2/31"
+    address: 192.168.0.2
+  bgp_underlay: 
+   local_asn: 201
+   neighbors:
+    spine_1:   
+     ip: 192.168.0.1 
+     peer_as: 101
+    spine_2:   
+     ip: 192.168.0.3
+     peer_as: 102
+  bgp_overlay_local_address: 10.20.1.1
+  underlay_vlan:
+   vlan_id: 10
+   l3_interface: irb.10
+  underlay_irb:
+   unit: 10
+   address: 172.16.1.1
+## ------------------------------------------ ##
+- host_name: leaf2
+  management_ip: 172.30.108.140
+  # loopback and router_id and ibgp (overlay/evpn) local_address are the same 
+  loopback: 10.20.1.2
+  router_id: 10.20.1.2
+  switch_options_route_distinguisher: 10.20.1.2:1
+  snmp_location: "DC1 room1 raw1 rack02"
+  uplinks: 
+   to_spine01: 
+    interface: et-0/0/22
+    description: "UPLINK - L2 to S1 - 192.168.0.4/31"
+    address: 192.168.0.4
+   to_spine02: 
+    interface: et-0/0/23
+    description:  "UPLINK - L2 to S2 - 192.168.0.6/31"
+    address: 192.168.0.6
+  bgp_underlay: 
+   local_asn: 202
+   neighbors:
+    spine_1:   
+     ip: 192.168.0.5 
+     peer_as: 101
+    spine_2:   
+     ip: 192.168.0.7
+     peer_as: 102
+  bgp_overlay_local_address: 10.20.1.2
+  underlay_vlan:
+   vlan_id: 10
+   l3_interface: irb.10
+  underlay_irb:
+   unit: 10
+   address: 172.16.2.1
+## ------------------------------------------ ##
+- host_name: leaf3
+  management_ip: 172.30.108.136
+  # loopback and router_id and ibgp (overlay/evpn) local_address are the same 
+  loopback: 10.20.1.3
+  router_id: 10.20.1.3
+  switch_options_route_distinguisher: 10.20.1.3:1
+  snmp_location: "DC1 room1 raw1 rack03"
+  uplinks: 
+   to_spine01: 
+    interface: et-0/0/48
+    description: "UPLINK - L3 to S1 - 192.168.0.8/31"
+    address: 192.168.0.8
+   to_spine02: 
+    interface: et-0/0/49
+    description: "UPLINK - L3 to S2 - 192.168.0.10/31"
+    address: 192.168.0.10
+  bgp_underlay: 
+   local_asn: 203
+   neighbors:
+    spine_1:   
+     ip: 192.168.0.9 
+     peer_as: 101
+    spine_2:   
+     ip: 192.168.0.11
+     peer_as: 102
+  bgp_overlay_local_address: 10.20.1.3
+  underlay_vlan:
+   vlan_id: 3
+   l3_interface: irb.3
+  underlay_irb:
+   unit: 3
+   address: 172.16.3.1

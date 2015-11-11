@@ -1,0 +1,178 @@
+system {
+    host-name {{host_name}};
+    domain-name juniper.net;
+    time-zone Europe/Paris;
+    root-authentication {
+        encrypted-password $1$X1Voripv$2Z70Lm20kqKLF.JBxoD2B1; 
+    }
+    name-server {
+        8.8.8.8;
+        8.8.4.4;
+    }
+    login {
+        message "This is the property of Juniper Networks. Do not login without express permission";
+    }
+    services {
+        ssh {
+            root-login allow;
+        }
+        netconf {
+            ssh;
+        }
+    }
+    syslog {
+        file messages {
+            any any;
+        }
+    }
+}
+interfaces {
+    {%- for item in uplinks %}
+    {{uplinks[item]['interface']}} {
+        unit 0 {
+        description "{{uplinks[item]['description']}}";
+            family inet {
+                address {{uplinks[item]['address']}}/31;
+            }
+        }
+    }
+    {%- endfor %}
+    irb {
+        description "L3 interfaces for underlay vlans";
+        unit {{underlay_irb.unit}} {
+            description "L3 interface for underlay local SERVERS's vlan";
+            family inet {
+                address {{underlay_irb.address}}/24;
+            }
+        }
+    }
+    lo0 {
+        description "Loopback Interface";
+        unit 0 {
+            family inet {
+                primary;
+                address {{loopback}}/32;
+            }
+        }
+    }
+    vme {
+            description "management interface";
+            unit 0 {
+            family inet {
+                address {{management_ip}}/24;
+            }
+        }
+    }
+}
+snmp {
+    location {{snmp_location}};
+}
+routing-options {
+    graceful-restart;
+    static {
+        route 0.0.0.0/0 next-hop 172.30.108.1;
+    }
+    router-id {{router_id}};
+    forwarding-table {
+        export bgp-ecmp;
+    }
+}
+protocols {
+    bgp {
+        log-updown;
+        group UNDERLAY-EBGP {
+            type external;
+            import bgp-underlay-in;
+            family inet {
+                unicast;
+            }
+            export bgp-underlay-out;
+            local-as {{bgp_underlay.local_asn}};
+            graceful-restart;
+            bfd-liveness-detection {
+                minimum-interval 350;
+                multiplier 3;
+                session-mode single-hop;
+            }
+            multipath multiple-as;
+            {%- for item in bgp_underlay.neighbors %}
+            neighbor {{bgp_underlay.neighbors[item]['ip']}} {
+                peer-as {{bgp_underlay.neighbors[item]['peer_as']}};
+            }
+        {%- endfor %}
+        }
+        group OVERLAY-iBGP {
+            type internal;
+            local-address {{bgp_overlay_local_address}};
+            family inet-vpn {
+                unicast;
+         }
+            family evpn {
+                signaling;
+            }
+            local-as 64512;
+            graceful-restart;
+            bfd-liveness-detection {
+                minimum-interval 350;
+                multiplier 3;
+                session-mode automatic;
+            }
+            multipath;
+            neighbor 10.30.1.1;
+            neighbor 10.30.1.2;
+        }
+    }
+    evpn {
+        encapsulation vxlan;
+        multicast-mode ingress-replication;
+    }
+    lldp {
+        interface all;
+    }
+}
+policy-options {
+    policy-statement LEAF-IN { 
+        term ESI_LEAF { 
+            from community commEsi;
+            then accept;
+        }
+        then reject;
+    }   
+    policy-statement bgp-ecmp {
+        then {
+            load-balance per-packet;
+        }
+    }
+    policy-statement bgp-underlay-in {
+        then accept;
+    }
+    policy-statement bgp-underlay-out {
+        term LOOPBACK {
+            from {
+                route-filter 10.20.0.0/16 longer;
+            }
+            then accept;
+        }
+        term SERVER {
+            from {
+                route-filter 172.16.0.0/16 longer;
+            }
+            then accept;
+        }
+        then reject;
+    }
+    community commEsi members target:99:1;
+}
+switch-options {
+    vtep-source-interface lo0.0;
+    route-distinguisher {{switch_options_route_distinguisher}}; 
+    vrf-import LEAF-IN;
+    vrf-target target:99:1;
+}
+vlans {
+    SERVERS {
+        description "Underlay local SERVERS VLAN";
+        vlan-id {{underlay_vlan.vlan_id}};
+        l3-interface {{underlay_vlan.l3_interface}};
+    }
+}

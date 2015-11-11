@@ -1,0 +1,5 @@
+# First device to configure
+---
+- host: 172.30.108.228 
+  hostName: leaf01-automate
+

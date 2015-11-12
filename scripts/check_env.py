@@ -25,7 +25,7 @@
 # ---------------------------------------------------------------------------------------------------------------
 
 import imp
-modules = ['pip','jnpr', 'sys', 'pip', 'logging', 'datetime', 'argparse', 'optparse','yaml']
+modules = ['yaml', 'sys', 'os', 'argparse', 'glob', 'jinja2', 'pprint', 'optparse', 'jnpr', 'datetime', 'logging', 're']
 STATE = True
 
 ### def to print status and information message to user

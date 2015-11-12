@@ -1,0 +1,16 @@
+---
+# -----------------------------------------------------------------------------
+# BGP Neighbor table
+# -----------------------------------------------------------------------------
+BGPNeighborTableJNPR:
+    rpc: get-bgp-neighbor-information
+    item: bgp-peer
+    view: BGPneighborViewJNPR
+    key: peer-address
+
+BGPneighborViewJNPR:
+    fields:
+        neighbor: peer-address
+        state:  peer-state
+        type: peer-type
+        flap_count: flap-count

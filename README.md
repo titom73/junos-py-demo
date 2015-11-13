@@ -13,11 +13,11 @@ All scripts are located under script directory of this repository
 ### Setup Python for windows
 Download latest version of Python 2.7 available on Python.org website: https://www.python.org/downloads/windows/
 
-Some details are available at the following [URL](https://github.com/titom73/junos-py-demo/wiki/Setup-Guide)
+Some details are available at the following [page](https://github.com/titom73/junos-py-demo/wiki/Setup-Guide) to correctly setup environment and check all dependencies are installed.
 
 ### Create LAB description
 
-All scripts will use the same dictionnary file to list devices involved in this LAB / POC. This file is located under script directory and named `lab-poc`.yml. Below is an example of the content and should be changed according your setup:
+All scripts will use the same dictionnary file to list devices involved in this LAB / POC. This file is located under script directory and named `scripts/lab-poc.yml`. Below is an example of the content and should be changed according your setup:
 
 ```yaml
 --- 

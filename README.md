@@ -41,3 +41,7 @@ All scripts use parameters to ensure they can match your environment. They have 
 
 To list all options available for each script, you can use `--help` or `-h` trigger to display help.
 
+Scripts will work at 3 different steps of network life:
+- Build: details of these scripts are available [here](https://github.com/titom73/junos-py-demo/wiki/Build-Phase)
+- Run: details of these scripts are available [here](https://github.com/titom73/junos-py-demo/wiki/Run-Phase)
+- Audit: details of these scripts are available [here](https://github.com/titom73/junos-py-demo/wiki/Audit-Phase)

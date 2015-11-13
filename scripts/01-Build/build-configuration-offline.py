@@ -8,7 +8,7 @@
 # VERSION: 	1.1
 #
 # USAGE:
-# 
+# python build-configuration-offline.py -t template-example/ip_fabric_template_for_leaves_build_phase2.j2 -y template-example/ip_fabric_variables_definition_for_leaves_build_phase2.yml -k host_name
 #
 # --------------------------------------------------------------------
 #
@@ -31,7 +31,15 @@
 # --------------------------------------------------------------------
 #
 # Output sample:
+#python build-configuration-offline.py -t template-example/ip_fabric_template_for_leaves_build_phase2.j2 -y template-example/ip_fabric_variables_definition_for_leaves_build_phase2.yml -k host_name
+# Start configuration building
+#   - Generate config for leaf1
 #
+#   - Generate config for leaf2
+#
+#   - Generate config for leaf3
+#
+# End of Script
 #
 # --------------------------------------------------------------------
 
@@ -62,8 +70,6 @@ print 'Start configuration building'
 # YAML file.
 with open( options.yaml ) as fh:
     data = yaml.load( fh.read() )
-
-#pprint( data )
 
 # Jinja2 template file.
 with open( options.template ) as t_fh:

@@ -43,3 +43,4 @@ Temporary Items
 .apdisk
 *.log
 *.pyc
+scripts/01-Build/build-configuration-offline.py

@@ -55,5 +55,5 @@ Scripts will work at 3 different steps of network life:
 - Create new Pull Request
 
 ##Author
-Thomas Grimonet / Juniper Networks / [Twitter](https://www.twitter.com/titom73)
-Khelil Sator / Juniper Networks
+* Thomas Grimonet / Juniper Networks / [Twitter](https://www.twitter.com/titom73)
+* Khelil Sator / Juniper Networks

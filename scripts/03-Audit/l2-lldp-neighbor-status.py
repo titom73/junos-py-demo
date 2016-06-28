@@ -93,15 +93,20 @@ def main(options):
 		logger.info("Analyzing router %s",router)
 		lldp_neighbors = get_data(router,options)
 		for item in lldp_neighbors:
-			# Avoid issue due to lack of interface description field returned by LLDP neighbor
+			# Avoid issue due to lack of interface description field or remote system name returned by LLDP neighbor
 			# If description field is not null, then we can use it in our output
-			if item.remote_port_desc is not None:
-				print "    * Interface " + item.local_int + " connected to " + item.remote_sysname.upper() + " (" + item.remote_port_desc +")" 
-				logger.debug("Interface %s connected to %s (%s)" , item.local_int, item.remote_sysname.upper(), item.remote_port_desc)
-			# Else we do not call this variable
+			# Fix Issue #1
+			if item.remote_sysname is not None:
+				if item.remote_port_desc is not None:
+					print "    * Interface " + item.local_int + " connected to " + item.remote_sysname.upper() + " (" + item.remote_port_desc +")" 
+					logger.debug("Interface %s connected to %s (%s)" , item.local_int, item.remote_sysname.upper(), item.remote_port_desc)
+				# Else we do not call this variable
+				else:
+					print "    * Interface " + item.local_int + " connected to " + item.remote_sysname.upper()
+					logger.debug("Interface %s connected to %s" , item.local_int, item.remote_sysname.upper())
 			else:
-				print "    * Interface " + item.local_int + " connected to " + item.remote_sysname.upper()
-				logger.debug("Interface %s connected to %s" , item.local_int, item.remote_sysname.upper())
+				print "    * Interface " + item.local_int + " connected to unknown device (remote_sysname / remote_port_desc)"
+				logger.debug("Interface %s connected to unknown device (remote_sysname / remote_port_desc)" , item.local_int)
 		logger.info("End of analyzing router %s",router)
 
 # ----------------------------------------------------------------- #

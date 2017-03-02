@@ -35,14 +35,14 @@ def main(options):
 				cli += 1
 			elif item.commit_method == "netconf":
 				netconf += 1
-            print "    - Number of NETCONF commit: "+ str(netconf)
-            global_netconf += netconf
-            print "    - Number of CLI commit: "+ str(cli)
-            global_cli += cli
-    print "\n----------------------------------------"
-    print "* # of NETCONF commit: "+str(global_netconf)
-    print "* # of CLI commit: "+str(global_cli)
-    print "----------------------------------------\n"
+			print "    - Number of NETCONF commit: "+ str(netconf)
+			global_netconf += netconf
+			print "    - Number of CLI commit: "+ str(cli)
+			global_cli += cli
+	print "\n----------------------------------------"
+	print "* # of NETCONF commit: "+str(global_netconf)
+	print "* # of CLI commit: "+str(global_cli)
+	print "----------------------------------------\n"
 # ----------------------------------------------------------------- #
 # MAIN Section
 # ----------------------------------------------------------------- #

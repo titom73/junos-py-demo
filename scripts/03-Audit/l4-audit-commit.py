@@ -52,7 +52,7 @@ if __name__ == "__main__":
 	# Default Username and Password. Could be updated through CLI Parameters
 	version = "1.1"
 	gUser='root'
-	gPass='Embe1mpls'
+	gPass='Poclab123'
 	gFile='../lab-poc.yml'
 
 	### CLI Option parser:

@@ -1,0 +1,13 @@
+---
+CommitTableJNPR:
+  rpc: get-commit-information
+  item: .//commit-history
+  key: .//commit-history/sequence-number
+  view: CommitTableViewJNPR
+
+CommitTableViewJNPR:
+  fields:
+    commit_user: user
+    commit_method: client
+    commit_comment: comment
+    commit_id: sequence-number

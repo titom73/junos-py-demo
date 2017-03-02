@@ -23,7 +23,8 @@ def main(options):
 	### Open list of devices
 	my_list_of_devices=open(options.lab).read()
 	my_list_of_routers=yaml.load(my_list_of_devices)
-
+	global_netconf = 0
+	global_cli = 0
 	for router in my_list_of_routers:
 		cli = 0
 		netconf = 0

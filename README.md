@@ -46,7 +46,7 @@ Scripts will work at 3 different steps of network life:
 - Run: details of these scripts are available [here](https://github.com/titom73/junos-py-demo/wiki/Run-Phase)
 - Audit: details of these scripts are available [here](https://github.com/titom73/junos-py-demo/wiki/Audit-Phase)
 
-##Contributing
+## Contributing
 
 - Fork it
 - Create your feature branch (git checkout -b my-new-feature)
@@ -54,6 +54,6 @@ Scripts will work at 3 different steps of network life:
 - Push to the branch (git push origin my-new-feature)
 - Create new Pull Request
 
-##Author
+## Author
 * Thomas Grimonet / Juniper Networks / [Twitter](https://www.twitter.com/titom73)
 * Khelil Sator / Juniper Networks
